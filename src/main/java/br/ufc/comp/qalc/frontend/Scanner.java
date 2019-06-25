@@ -5,6 +5,7 @@ import br.ufc.comp.qalc.frontend.token.ignorates.CommentToken;
 import br.ufc.comp.qalc.frontend.token.ignorates.WhiteToken;
 import br.ufc.comp.qalc.frontend.token.operators.*;
 import br.ufc.comp.qalc.frontend.token.statements.*;
+import br.ufc.comp.qalc.frontend.token.types.*;
 
 import java.io.IOException;
 
@@ -130,6 +131,12 @@ public class Scanner {
             lexema.append(source.getCurrentChar());
             source.advance();
 
+            if(source.getCurrentChar() == '+'){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                return this.currentToken = new IncToken(currentLine, lexemaStart, lexema.toString());
+            }
+
             return currentToken =  new PlusToken(currentLine, lexemaStart, lexema.toString());
         }else if(source.getCurrentChar() == '-'){
             StringBuilder lexema = new StringBuilder();
@@ -139,6 +146,12 @@ public class Scanner {
 
             lexema.append(source.getCurrentChar());
             source.advance();
+
+            if(source.getCurrentChar() == '-'){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                return this.currentToken = new DecToken(currentLine, lexemaStart, lexema.toString());
+            }
 
             return currentToken = new MinusToken(currentLine, lexemaStart, lexema.toString());
         }else if(source.getCurrentChar() == '/'){
@@ -189,6 +202,12 @@ public class Scanner {
 
             lexema.append(source.getCurrentChar());
             source.advance();
+
+            if(source.getCurrentChar() == '='){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                return this.currentToken = new EqToken(currentLine, lexemaStart, lexema.toString());
+            }
 
             return currentToken = new AtribToken(currentLine, lexemaStart, lexema.toString());
         }else if(source.getCurrentChar() == '('){
@@ -265,6 +284,106 @@ public class Scanner {
             }while(source.getCurrentChar() != '\n');
 
             return currentToken = new CommentToken(currentLine, lexemaStart, lexema.toString());
+        }else if(source.getCurrentChar() == '\''){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+
+            lexema.append(source.getCurrentChar());
+            source.advance();
+            if(source.getCurrentChar() == '\\'){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                lexema.append(source.getCurrentChar());
+                source.advance();
+            }else{
+                lexema.append(source.getCurrentChar());
+                source.advance();
+            }
+            lexema.append(source.getCurrentChar());
+            source.advance();
+
+            return this.currentToken = new CharToken(currentLine, lexemaStart, lexema.toString());
+        }else if(source.getCurrentChar() == '>'){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+            lexema.append(source.getCurrentChar());
+            source.advance();
+
+            if(source.getCurrentChar() == '='){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                return this.currentToken = new GeqToken(currentLine, lexemaStart, lexema.toString());
+            }
+
+            return this.currentToken = new GreatToken(currentLine, lexemaStart, lexema.toString());
+        }else if(source.getCurrentChar() == '<'){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+            lexema.append(source.getCurrentChar());
+            source.advance();
+
+            if(source.getCurrentChar() == '='){
+                lexema.append(source.getCurrentChar());
+                source.advance();
+                return this.currentToken = new LeqToken(currentLine, lexemaStart, lexema.toString());
+            }
+
+            return this.currentToken = new LessToken(currentLine, lexemaStart, lexema.toString());
+        }else if(source.getCurrentChar() == '\"'){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+            do{
+                lexema.append(source.getCurrentChar());
+                source.advance();
+            }while(source.getCurrentChar() != '\"');
+            source.advance();
+            lexema.append('"');
+
+            return this.currentToken = new StringToken(currentLine, lexemaStart, lexema.toString());
+        }else if(source.getCurrentChar() == '&'){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+            lexema.append(source.getCurrentChar());
+            source.advance();
+
+            if(source.getCurrentChar() == '&'){
+                lexema.append('&');
+                source.advance();
+
+                return this.currentToken = new AndToken(currentLine, lexemaStart, lexema.toString());
+            }
+            //retorna token do operador and bit-a-bit
+        }else if(source.getCurrentChar() == '|'){
+            StringBuilder lexema = new StringBuilder();
+
+            long currentLine = source.getCurrentLine();
+            long lexemaStart = source.getCurrentColumn();
+
+            lexema.append(source.getCurrentChar());
+            source.advance();
+
+            if(source.getCurrentChar() == '|'){
+                lexema.append('|');
+                source.advance();
+
+                return this.currentToken = new OrToken(currentLine, lexemaStart, lexema.toString());
+            }
+            //retorna token do operador or bit-a-bit
         }else if(Character.isWhitespace(source.getCurrentChar())){
             StringBuilder lexema = new StringBuilder();
 
@@ -303,6 +422,51 @@ public class Scanner {
                 case "break":
                     source.adjustFuture();
                     return this.currentToken = new BreakToken(currentLine, lexemaStart, lexema.toString());
+                case "return":
+                    source.adjustFuture();
+                    return this.currentToken = new ReturnToken(currentLine, lexemaStart, lexema.toString());
+                case "true":
+                    source.adjustFuture();
+                    return this.currentToken = new TrueToken(currentLine, lexemaStart, lexema.toString());
+                case "false":
+                    source.adjustFuture();
+                    return this.currentToken = new FalseToken(currentLine, lexemaStart, lexema.toString());
+                case "this":
+                    source.adjustFuture();
+                    return this.currentToken = new ThisToken(currentLine, lexemaStart, lexema.toString());
+                case "public":
+                    source.adjustFuture();
+                    return this.currentToken = new PublicToken(currentLine, lexemaStart, lexema.toString());
+                case "private":
+                    source.adjustFuture();
+                    return this.currentToken = new PrivateToken(currentLine, lexemaStart, lexema.toString());
+                case "struct":
+                    source.adjustFuture();
+                    return this.currentToken = new StructToken(currentLine, lexemaStart, lexema.toString());
+                case "static":
+                    source.adjustFuture();
+                    return this.currentToken = new StaticToken(currentLine, lexemaStart, lexema.toString());
+                case "int":
+                    source.adjustFuture();
+                    return this.currentToken = new IntToken(currentLine, lexemaStart, lexema.toString());
+                case "double":
+                    source.adjustFuture();
+                    return this.currentToken = new DoubleToken(currentLine, lexemaStart, lexema.toString());
+                case "float":
+                    source.adjustFuture();
+                    return this.currentToken = new FloatToken(currentLine, lexemaStart, lexema.toString());
+                case "char":
+                    source.adjustFuture();
+                    return this.currentToken = new CharToken(currentLine, lexemaStart, lexema.toString());
+                case "bool":
+                    source.adjustFuture();
+                    return this.currentToken = new BoolToken(currentLine, lexemaStart, lexema.toString());
+                case "const":
+                    source.adjustFuture();
+                    return this.currentToken = new ConstToken(currentLine, lexemaStart, lexema.toString());
+                case "void":
+                    source.adjustFuture();
+                    return this.currentToken = new VoidToken(currentLine, lexemaStart, lexema.toString());
             }
             source.resetFuture();
         }

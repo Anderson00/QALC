@@ -149,6 +149,9 @@ public abstract class Token {
            ch == ',' ||
            ch == '{' ||
            ch == '}' ||
+           ch == '<' ||
+           ch == '>' ||
+           ch == '!' ||
            Character.isDigit(ch) ||
            Character.isWhitespace(ch)){
             return true;

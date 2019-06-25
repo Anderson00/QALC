@@ -55,7 +55,7 @@ public class Source {
      * <p>
      * Inicialmente, nenhum caractere é lido.
      *
-     * @param input o fluxo de dados de entrada.
+     * @param readFrom o fluxo de dados de entrada.
      * @throws IOException Caso a inicialização ou a leitura do fluxo falhe.
      */
     public Source(File readFrom) throws IOException {

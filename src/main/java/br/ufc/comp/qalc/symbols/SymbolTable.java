@@ -4,9 +4,19 @@ import java.util.*;
 
 public class SymbolTable {
 
+    private static SymbolTable instance = new SymbolTable();
+
     private Set<Symbol> variables = new HashSet<>();
     private Map<Symbol, List<Symbol>> functions = new HashMap<>();
     private long lastResult = 0;
+
+    private SymbolTable(){
+
+    }
+
+    public static SymbolTable getInstance(){
+        return instance;
+    }
 
     public Optional<SymbolType> getSymbolType(Symbol s) {
         if(variables.contains(s)) {

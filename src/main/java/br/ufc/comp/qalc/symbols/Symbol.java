@@ -22,6 +22,10 @@ public class Symbol {
         return identifier;
     }
 
+    public static Map<String, Symbol> getSymbols(){
+        return symbols;
+    }
+
     private static Map<String, Symbol> symbols = new IdentityHashMap<>();
 
     private final String identifier;

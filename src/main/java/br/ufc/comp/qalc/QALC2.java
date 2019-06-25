@@ -18,7 +18,7 @@ public class QALC2 {
     public static void main(String args[]){
 
         try {
-            CharStream stream = CharStreams.fromFileName("/UrukHai/test.qalc");
+            CharStream stream = CharStreams.fromFileName("test.qalc");
             QALCLexer lexer = new QALCLexer(stream);
             CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             QALCParser parser = new QALCParser(tokenStream);
@@ -27,8 +27,6 @@ public class QALC2 {
             Parse parse = new Parse();
             QALCTranslate translate = new QALCTranslate(parse);
             translate.visitParse(ctx);
-
-            System.out.print(">> "+Symbol.getSymbols().size());
         }catch(IOException e){
             e.printStackTrace();
         }

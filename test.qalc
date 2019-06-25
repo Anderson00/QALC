@@ -1,0 +1,17 @@
+@main(){
+    {
+        {
+
+        }
+         
+        {
+
+        } 
+    }
+
+    return 0;
+}
+
+@func(int $n2, int $n2){
+    return $n1 + $n2;
+}
